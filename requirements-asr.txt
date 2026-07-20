@@ -1,0 +1,2 @@
+# Optional ASR dependency. Core UI tests do not require a model download.
+faster-whisper==1.2.1
