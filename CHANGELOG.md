@@ -15,6 +15,7 @@
 ### Fixed
 
 - Open runtime log files lazily so Windows test cleanup is not blocked by unused file handles.
+- Start the Windows UI in Python UTF-8 mode so Unicode output from the backend client does not fail on legacy console code pages.
 
 ## 0.1.0-alpha.1 - 2026-07-20
 
