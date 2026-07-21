@@ -1,7 +1,9 @@
 # Windows/GPU release acceptance
 
-Run this checklist on the intended Windows inference host before making the
-repository public. Use only a voice sample for which the operator has explicit
+Run this checklist on the intended Windows inference host before claiming that
+host configuration as supported, distributing a runtime package, or marking a
+release production-ready. Publishing the Alpha source does not require this
+hardware claim. Use only a voice sample for which the operator has explicit
 permission. Do not copy the sample, its transcript, generated audio, hostnames,
 usernames, absolute paths, tokens, or raw logs into this repository.
 
@@ -51,5 +53,6 @@ Authorized sample used: YES (sample not retained)
 Overall: PASS | FAIL
 ```
 
-Any failure keeps the release at private alpha until it is fixed and the whole
-checklist is rerun.
+Any failure keeps that Windows/GPU combination unverified until it is fixed and
+the whole checklist is rerun. It does not require making the Alpha source
+private again.

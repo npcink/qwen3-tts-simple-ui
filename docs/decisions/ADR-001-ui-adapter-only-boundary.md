@@ -2,7 +2,8 @@
 
 ## Status
 
-Accepted
+Accepted. The publication gate is amended by ADR-002; the UI-only boundary
+remains unchanged.
 
 ## Date
 

@@ -1,10 +1,22 @@
 # Public source release review
 
-## Decision scope
+## Decision
 
-This review covers publishing the source repository. It does not approve an
-internet-facing hosted voice-cloning service. The supported runtime boundaries
-are:
+**GO for public source Alpha.** This decision approves public visibility of the
+source repository. It does not approve an internet-facing service, a Windows
+runtime package, a supported GPU matrix or production use. ADR-002 records why
+those runtime claims are evaluated separately.
+
+Current status:
+
+| Surface | Status |
+| --- | --- |
+| Source repository visibility | GO — public Alpha |
+| Target Windows/GPU compatibility | PENDING — no claim yet |
+| Direct public-network deployment | UNSUPPORTED |
+| Production readiness | NOT CLAIMED |
+
+## Supported runtime boundaries
 
 1. **Default:** one trusted user, with the UI and every backend bound to
    `127.0.0.1`.
@@ -38,19 +50,23 @@ ASR services. Runtime files cross a third boundary onto local storage.
 
 ## Verification record — 2026-07-21
 
-- The current reachable Git history passed Gitleaks with no findings.
+- The GitHub repository was rebuilt from a clean reachable-history clone and
+  contains only the two reviewed commits that precede this publication change.
+- The pre-sanitization commit object is absent from the local object database,
+  a fresh remote mirror and the GitHub commit API.
+- The reachable history and current tree passed Gitleaks with no findings.
 - The current tree was checked for private host paths, user paths, email
   addresses, credentials and real voice artifacts; only documented loopback
   addresses remain.
 - GitHub Dependabot vulnerability alerts are enabled. Private vulnerability
-  reporting can only be enabled after the repository becomes public.
+  reporting is a mandatory immediate post-publication check.
 - `pip-audit` found no known vulnerabilities in either the core or optional
   ASR requirement set at review time.
-- Unit tests cover valid WAV generation, supported container headers, disguised
-  HTML, truncated headers, extension mismatches, untrusted Host headers and
-  cross-site requests.
-- Format detection was additionally exercised without retaining files against
-  these upstream `jiaaro/pydub` test blobs:
+- Automated tests cover valid WAV generation, supported container headers,
+  disguised HTML, truncated headers, extension mismatches, untrusted Host
+  headers and cross-site requests.
+- Format detection was exercised without retaining files against these
+  upstream `jiaaro/pydub` test blobs:
 
 | Format | Upstream fixture | Git blob | SHA-256 |
 | --- | --- | --- | --- |
@@ -59,19 +75,15 @@ ASR services. Runtime files cross a third boundary onto local storage.
 | FLAC | `test/data/test-192khz-32bit.flac` | `61458fb21686fa4d5bf18070aa5e6ae29409f997` | `13f49b449f823e79242c46700f24aa65b9b27fe22cdf384e3a1d6aa54b0e3543` |
 | WAV | `test/data/test1-8bit.wav` | `040c4a320102741ffdee080c979ba3edbd484799` | `6868dcaf999822d9e7d66a085596f6765fb4a244a6b24282679b5a9c5ae0b173` |
 
-The fixtures are used only as public upstream compatibility evidence and are
-not committed to this repository.
+The fixtures are public upstream compatibility evidence and are not committed
+to this repository.
 
-## Remaining source-publication gates
+## Runtime follow-up
 
-- Complete [the target Windows/GPU acceptance](WINDOWS_GPU_ACCEPTANCE.md) using
-  an authorized sample; record only sanitized results, never the sample or
-  generated voice.
-- Ensure the pre-sanitization GitHub commit object is no longer retrievable, or
-  explicitly accept that historical metadata exposure before changing
-  visibility.
-- Enable GitHub private vulnerability reporting when repository visibility
-  permits it.
-
-Until those gates close, the release decision remains **private alpha / no-go
-for public visibility**.
+- Complete [the target Windows/GPU acceptance](WINDOWS_GPU_ACCEPTANCE.md)
+  before claiming that configuration as supported or publishing a runtime
+  artifact.
+- Keep direct public-network deployment unsupported until authentication,
+  rate limiting, abuse handling and operational monitoring have their own
+  reviewed implementation.
+- Do not create a stable or production-ready release from this Alpha decision.

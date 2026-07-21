@@ -4,7 +4,14 @@
 
 这是非官方社区项目，与 Qwen、阿里巴巴或阿里云没有隶属或背书关系。仓库只包含 UI、队列和本地服务适配代码，不包含模型权重、声音样本、SoX、CUDA 运行时或 Qwen3-TTS 本身。
 
-当前版本为 0.1.0-alpha.1，适合私有环境验证，不建议直接暴露到公网。
+当前版本为 0.1.0-alpha.1，以公开源码 Alpha 的方式提供，适合在受控本地环境中验证、学习和继续开发。目标 Windows/GPU 组合尚未完成真机验收，也不建议把本项目直接暴露到公网。
+
+## 项目状态
+
+- 源码状态：公开 Alpha
+- Windows/GPU 运行兼容性：待目标主机验收
+- 公网服务与生产可用性：不支持
+- 模型与第三方运行时：不随本仓库分发
 
 ## 架构边界
 
@@ -63,12 +70,16 @@
 
 ## 测试
 
-    python -m compileall -q app.py asr_service.py gpu_lock.py tests
+    python -m compileall -q app.py asr_service.py audio_validation.py request_security.py gpu_lock.py tests
     python -m unittest discover -s tests -v
 
-默认测试不加载模型、不调用 GPU，也不访问真实 Qwen 或 ASR 后端。发布前仍需按照 [Windows/GPU 验收清单](docs/WINDOWS_GPU_ACCEPTANCE.md) 在目标主机上完成一次使用授权样本的端到端验证，样本和输出不得进入仓库。
+默认测试不加载模型、不调用 GPU，也不访问真实 Qwen 或 ASR 后端。公开源码不以真机验收为前提；但在宣称某个 Windows/GPU 组合受支持、发布运行包或标记生产可用前，仍需按照 [Windows/GPU 验收清单](docs/WINDOWS_GPU_ACCEPTANCE.md) 使用授权样本完成端到端验证。样本和输出不得进入仓库。
 
-公开源码前的威胁审查、格式兼容证据和剩余发布闸门记录在 [docs/PUBLIC_RELEASE_REVIEW.md](docs/PUBLIC_RELEASE_REVIEW.md)。
+源码公开审查、威胁模型、格式兼容证据和运行时待办记录在 [docs/PUBLIC_RELEASE_REVIEW.md](docs/PUBLIC_RELEASE_REVIEW.md)。为什么把源码公开与运行时验收分开，见 [ADR-002](docs/decisions/ADR-002-public-source-alpha.md)。
+
+## 参与开发
+
+提交改动前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。安全问题请按 [SECURITY.md](SECURITY.md) 私下报告，不要在 Issue 中附加真实声音样本、生成的模仿音频、凭据或主机信息。
 
 ## 使用约束
 
