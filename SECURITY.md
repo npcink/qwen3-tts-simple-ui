@@ -14,6 +14,6 @@ This application can synthesize speech and clone an authorized voice. A local de
 
 The health endpoint intentionally omits backend addresses. Logs and audit records must not contain source audio or transcription text. The audit log stores timestamps, cryptographic digests and file suffixes; short text digests can still be sensitive and require restricted access.
 
-Before public release, scan every Git ref for secrets, review upload validation against real file formats, and complete a threat review for the intended network boundary.
+Before public release, scan every Git ref for secrets, review upload validation against real file formats, and complete a threat review for the intended network boundary. The evidence and remaining gates are tracked in [docs/PUBLIC_RELEASE_REVIEW.md](docs/PUBLIC_RELEASE_REVIEW.md).
 
 Report vulnerabilities privately to the repository owner. Do not attach real voice samples or generated impersonation content.

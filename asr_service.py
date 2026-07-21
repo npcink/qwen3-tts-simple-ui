@@ -9,10 +9,15 @@ import uuid
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi.responses import JSONResponse
 from filelock import Timeout
 from faster_whisper import WhisperModel
 from dotenv import load_dotenv
 from gpu_lock import get_gpu_lock
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+
+from audio_validation import detect_audio_suffix
+from request_security import DEFAULT_ALLOWED_HOSTS, is_same_origin_browser_request
 
 
 ROOT = Path(__file__).resolve().parent
@@ -47,6 +52,18 @@ if not LOGGER.handlers:
 
 UPLOADS.mkdir(parents=True, exist_ok=True)
 app = FastAPI(title="本地日语转写", docs_url=None, redoc_url=None)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=list(DEFAULT_ALLOWED_HOSTS))
+
+
+@app.middleware("http")
+async def reject_cross_site_writes(request, call_next):
+    if request.method not in {"GET", "HEAD", "OPTIONS"} and not is_same_origin_browser_request(
+        request.headers.get("origin"),
+        request.headers.get("host"),
+        request.headers.get("sec-fetch-site"),
+    ):
+        return JSONResponse(status_code=403, content={"detail": "拒绝跨站请求。"})
+    return await call_next(request)
 
 
 def get_model() -> WhisperModel:
@@ -102,6 +119,11 @@ async def transcribe(
         raise HTTPException(status_code=422, detail="录音为空，请重新选择文件。")
     if len(content) > MAX_AUDIO_BYTES:
         raise HTTPException(status_code=422, detail="录音请控制在 30MB 以内。")
+    detected_suffix = detect_audio_suffix(content)
+    if detected_suffix is None:
+        raise HTTPException(status_code=422, detail="无法识别录音格式，请上传有效的音频文件。")
+    if detected_suffix != suffix:
+        raise HTTPException(status_code=422, detail="录音内容与文件扩展名不一致，请重新导出后上传。")
 
     temporary = UPLOADS / f"asr-{uuid.uuid4().hex}{suffix}"
     try:

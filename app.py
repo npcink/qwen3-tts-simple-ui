@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 import httpx
 from filelock import Timeout
@@ -23,6 +23,10 @@ from gradio_client import Client, handle_file
 from dotenv import load_dotenv
 from gpu_lock import get_gpu_lock
 from pydantic import BaseModel
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+
+from audio_validation import detect_audio_suffix
+from request_security import configured_ui_hosts, is_same_origin_browser_request
 
 
 ROOT = Path(__file__).resolve().parent
@@ -125,6 +129,20 @@ class PreviewRequest(BaseModel):
 
 
 app = FastAPI(title="本地语音台", version=APP_VERSION, docs_url=None, redoc_url=None)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=configured_ui_hosts())
+
+
+@app.middleware("http")
+async def reject_cross_site_writes(request, call_next):
+    if request.method not in {"GET", "HEAD", "OPTIONS"} and not is_same_origin_browser_request(
+        request.headers.get("origin"),
+        request.headers.get("host"),
+        request.headers.get("sec-fetch-site"),
+    ):
+        return JSONResponse(status_code=403, content={"detail": "拒绝跨站请求。"})
+    return await call_next(request)
+
+
 OUTPUTS.mkdir(parents=True, exist_ok=True)
 PREVIEWS.mkdir(parents=True, exist_ok=True)
 UPLOADS.mkdir(parents=True, exist_ok=True)
@@ -284,6 +302,11 @@ def validate_reference_upload(
         raise HTTPException(status_code=422, detail="参考录音为空，请重新选择文件。")
     if len(content) > MAX_REFERENCE_AUDIO_BYTES:
         raise HTTPException(status_code=422, detail="参考录音请控制在 30MB 以内。")
+    detected_suffix = detect_audio_suffix(content)
+    if detected_suffix is None:
+        raise HTTPException(status_code=422, detail="无法识别录音格式，请上传有效的音频文件。")
+    if detected_suffix != suffix:
+        raise HTTPException(status_code=422, detail="录音内容与文件扩展名不一致，请重新导出后上传。")
     return original_name, suffix
 
 

@@ -66,7 +66,9 @@
     python -m compileall -q app.py asr_service.py gpu_lock.py tests
     python -m unittest discover -s tests -v
 
-默认测试不加载模型、不调用 GPU，也不访问真实 Qwen 或 ASR 后端。发布前仍需在目标 Windows/GPU 主机上完成一次使用授权样本的端到端验证，样本和输出不得进入仓库。
+默认测试不加载模型、不调用 GPU，也不访问真实 Qwen 或 ASR 后端。发布前仍需按照 [Windows/GPU 验收清单](docs/WINDOWS_GPU_ACCEPTANCE.md) 在目标主机上完成一次使用授权样本的端到端验证，样本和输出不得进入仓库。
+
+公开源码前的威胁审查、格式兼容证据和剩余发布闸门记录在 [docs/PUBLIC_RELEASE_REVIEW.md](docs/PUBLIC_RELEASE_REVIEW.md)。
 
 ## 使用约束
 

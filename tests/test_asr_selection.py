@@ -17,7 +17,7 @@ fake_faster_whisper = types.ModuleType("faster_whisper")
 fake_faster_whisper.WhisperModel = object
 sys.modules.setdefault("faster_whisper", fake_faster_whisper)
 
-from asr_service import choose_reference_segment
+from asr_service import choose_reference_segment  # noqa: E402 - dependency stub first
 
 
 class ReferenceSegmentTest(unittest.TestCase):

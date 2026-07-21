@@ -1,7 +1,9 @@
+import io
 import json
 import os
 import tempfile
 import unittest
+import wave
 from pathlib import Path
 
 from fastapi import HTTPException
@@ -11,7 +13,7 @@ RUNTIME = tempfile.TemporaryDirectory()
 os.environ["QWEN_TTS_DATA_DIR"] = RUNTIME.name
 os.environ["QWEN_TTS_GPU_LOCK_FILE"] = str(Path(RUNTIME.name) / "gpu-inference.lock")
 
-import app
+import app  # noqa: E402 - runtime paths must be configured before import
 
 
 class AppHelpersTest(unittest.TestCase):
@@ -23,6 +25,24 @@ class AppHelpersTest(unittest.TestCase):
             app.validate_reference_upload("reference.m4a", b"audio")
         with self.assertRaises(HTTPException):
             app.validate_reference_upload("reference.wav", b"")
+
+    def test_validate_reference_upload_rejects_disguised_and_mismatched_files(self):
+        with self.assertRaises(HTTPException):
+            app.validate_reference_upload("reference.wav", b"<html>not audio</html>")
+
+        output = io.BytesIO()
+        with wave.open(output, "wb") as audio:
+            audio.setnchannels(1)
+            audio.setsampwidth(2)
+            audio.setframerate(16_000)
+            audio.writeframes(b"\x00\x00" * 160)
+
+        self.assertEqual(
+            ("reference.wav", ".wav"),
+            app.validate_reference_upload("reference.wav", output.getvalue()),
+        )
+        with self.assertRaises(HTTPException):
+            app.validate_reference_upload("reference.mp3", output.getvalue())
 
     def test_consent_audit_omits_original_filename_and_text(self):
         app.record_clone_consent("speaker-private-name.wav", b"audio", "参考原文", "目标文案")

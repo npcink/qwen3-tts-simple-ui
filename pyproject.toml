@@ -24,4 +24,4 @@ dependencies = [
 asr = ["faster-whisper==1.2.1"]
 
 [tool.setuptools]
-py-modules = ["app", "asr_service", "gpu_lock"]
+py-modules = ["app", "asr_service", "audio_validation", "gpu_lock", "request_security"]
