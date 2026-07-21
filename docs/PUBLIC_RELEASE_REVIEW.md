@@ -58,8 +58,11 @@ ASR services. Runtime files cross a third boundary onto local storage.
 - The current tree was checked for private host paths, user paths, email
   addresses, credentials and real voice artifacts; only documented loopback
   addresses remain.
-- GitHub Dependabot vulnerability alerts are enabled. Private vulnerability
-  reporting is a mandatory immediate post-publication check.
+- GitHub Dependabot vulnerability alerts and private vulnerability reporting
+  are enabled.
+- Anonymous GitHub page, API and mirror-clone checks confirm that the repository
+  is public, defaults to `main`, exposes only the reviewed history and does not
+  resolve the pre-sanitization commit object.
 - `pip-audit` found no known vulnerabilities in either the core or optional
   ASR requirement set at review time.
 - Automated tests cover valid WAV generation, supported container headers,
