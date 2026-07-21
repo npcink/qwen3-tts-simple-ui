@@ -12,6 +12,10 @@
 
 - Publish the repository as a source-only Alpha while keeping Windows/GPU compatibility and production readiness as separate runtime gates.
 
+### Fixed
+
+- Open runtime log files lazily so Windows test cleanup is not blocked by unused file handles.
+
 ## 0.1.0-alpha.1 - 2026-07-20
 
 ### Added

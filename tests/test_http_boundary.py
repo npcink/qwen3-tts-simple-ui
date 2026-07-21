@@ -1,3 +1,4 @@
+import logging
 import sys
 import types
 import unittest
@@ -27,6 +28,16 @@ class HttpBoundaryTest(unittest.TestCase):
             "/api/synthesize", json={}, headers={"host": "attacker.example"}
         )
         self.assertEqual(400, response.status_code)
+
+    def test_file_logs_open_lazily(self):
+        for logger in (app.LOGGER, asr_service.LOGGER):
+            handlers = [
+                handler
+                for handler in logger.handlers
+                if isinstance(handler, logging.FileHandler)
+            ]
+            self.assertTrue(handlers)
+            self.assertTrue(all(handler.delay for handler in handlers))
 
     def test_rejects_cross_site_browser_write(self):
         response = self.client.post(

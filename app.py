@@ -69,7 +69,9 @@ DATA_ROOT.mkdir(parents=True, exist_ok=True)
 LOGGER = logging.getLogger("qwen_tts_simple_ui")
 if not LOGGER.handlers:
     LOGGER.setLevel(logging.INFO)
-    handler = logging.FileHandler(DATA_ROOT / "clone_service.log", encoding="utf-8")
+    handler = logging.FileHandler(
+        DATA_ROOT / "clone_service.log", encoding="utf-8", delay=True
+    )
     handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
     LOGGER.addHandler(handler)
 
