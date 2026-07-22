@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- Added a development and public-release retrospective covering repository boundaries, Windows/GPU acceptance, release evidence, failures and reusable checklists.
+
 ## 0.1.0-alpha.1 - 2026-07-22
 
 ### Added

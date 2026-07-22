@@ -77,6 +77,8 @@
 
 源码公开审查、威胁模型、格式兼容证据和运行时待办记录在 [docs/PUBLIC_RELEASE_REVIEW.md](docs/PUBLIC_RELEASE_REVIEW.md)。为什么把源码公开与运行时验收分开，见 [ADR-002](docs/decisions/ADR-002-public-source-alpha.md)。
 
+从内部原型抽取、公开清理、Windows/GPU 真机验收，到 GitHub 与 SoFile 发布的完整经验、踩坑和复用清单，见 [开发与公开发布复盘](docs/DEVELOPMENT_RETROSPECTIVE.md)。
+
 ## 参与开发
 
 提交改动前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。安全问题请按 [SECURITY.md](SECURITY.md) 私下报告，不要在 Issue 中附加真实声音样本、生成的模仿音频、凭据或主机信息。
