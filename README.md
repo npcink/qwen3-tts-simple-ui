@@ -4,12 +4,12 @@
 
 这是非官方社区项目，与 Qwen、阿里巴巴或阿里云没有隶属或背书关系。仓库只包含 UI、队列和本地服务适配代码，不包含模型权重、声音样本、SoX、CUDA 运行时或 Qwen3-TTS 本身。
 
-当前版本为 0.1.0-alpha.1，以公开源码 Alpha 的方式提供，适合在受控本地环境中验证、学习和继续开发。目标 Windows/GPU 组合尚未完成真机验收，也不建议把本项目直接暴露到公网。
+当前版本为 0.1.0-alpha.1，以公开源码 Alpha 的方式提供，适合在受控本地环境中验证、学习和继续开发。Windows 11 与 NVIDIA GeForce RTX 4090 的一组目标配置已完成真机端到端验收，但本项目仍不是生产级或公网服务。
 
 ## 项目状态
 
 - 源码状态：公开 Alpha
-- Windows/GPU 运行兼容性：待目标主机验收
+- Windows/GPU 运行兼容性：Windows 11 / NVIDIA GeForce RTX 4090 目标配置已验证
 - 公网服务与生产可用性：不支持
 - 模型与第三方运行时：不随本仓库分发
 
@@ -73,7 +73,7 @@
     python -m compileall -q app.py asr_service.py audio_validation.py request_security.py gpu_lock.py tests
     python -m unittest discover -s tests -v
 
-默认测试不加载模型、不调用 GPU，也不访问真实 Qwen 或 ASR 后端。公开源码不以真机验收为前提；但在宣称某个 Windows/GPU 组合受支持、发布运行包或标记生产可用前，仍需按照 [Windows/GPU 验收清单](docs/WINDOWS_GPU_ACCEPTANCE.md) 使用授权样本完成端到端验证。样本和输出不得进入仓库。
+默认测试不加载模型、不调用 GPU，也不访问真实 Qwen 或 ASR 后端。已验证配置的脱敏证据见 [Windows/GPU 验收结果](docs/WINDOWS_GPU_ACCEPTANCE_RESULT.md)；其他配置在宣称受支持前，仍需按照 [Windows/GPU 验收清单](docs/WINDOWS_GPU_ACCEPTANCE.md) 使用授权样本完成端到端验证。样本和输出不得进入仓库。
 
 源码公开审查、威胁模型、格式兼容证据和运行时待办记录在 [docs/PUBLIC_RELEASE_REVIEW.md](docs/PUBLIC_RELEASE_REVIEW.md)。为什么把源码公开与运行时验收分开，见 [ADR-002](docs/decisions/ADR-002-public-source-alpha.md)。
 

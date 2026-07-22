@@ -2,32 +2,27 @@
 
 ## Unreleased
 
-### Added
-
-- Validate uploaded WAV, MP3, FLAC and OGG container signatures before decoding.
-- Reject untrusted Host headers and cross-site browser writes at the local HTTP boundary.
-- Record the public-source threat review, real-format compatibility evidence and remaining release gates.
-
-### Changed
-
-- Publish the repository as a source-only Alpha while keeping Windows/GPU compatibility and production readiness as separate runtime gates.
-
-### Fixed
-
-- Open runtime log files lazily so Windows test cleanup is not blocked by unused file handles.
-- Start the Windows UI in Python UTF-8 mode so Unicode output from the backend client does not fail on legacy console code pages.
-
-## 0.1.0-alpha.1 - 2026-07-20
+## 0.1.0-alpha.1 - 2026-07-22
 
 ### Added
 
 - Extracted the UI, local ASR adapter and GPU queue lock into an independent repository.
 - Added generic Windows launch templates, package metadata, offline tests and security documentation.
 - Recorded sanitized source provenance without importing private internal Git history.
+- Validate uploaded WAV, MP3, FLAC and OGG container signatures before decoding.
+- Reject untrusted Host headers and cross-site browser writes at the local HTTP boundary.
+- Record the public-source threat review, real-format compatibility evidence and remaining release gates.
+- Record the sanitized Windows 11 / NVIDIA GeForce RTX 4090 end-to-end acceptance result.
 
 ### Changed
 
+- Publish the repository as a source-only Alpha while keeping Windows/GPU compatibility and production readiness as separate runtime gates.
 - Removed host-specific Windows paths from the reusable launch templates.
 - Moved outputs, uploads, logs, caches and audit records under a configurable runtime directory.
 - Removed original reference filenames from consent audit records.
 - Changed the default UI listener from LAN-wide to loopback-only.
+
+### Fixed
+
+- Open runtime log files lazily so Windows test cleanup is not blocked by unused file handles.
+- Start the Windows UI in Python UTF-8 mode so Unicode output from the backend client does not fail on legacy console code pages.

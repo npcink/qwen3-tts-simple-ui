@@ -63,8 +63,17 @@ operational monitoring are outside this repository's current boundary.
 
 - Users can inspect, fork and extend the source without interpreting it as a
   supported Windows package.
-- README and project pages must keep the Alpha, local-only and unverified
-  runtime labels visible.
+- README and project pages must keep the Alpha and local-only labels visible;
+  every runtime claim must stay scoped to its sanitized evidence.
 - Future runtime claims require the sanitized Windows/GPU acceptance record.
 - A public GitHub repository must enable private vulnerability reporting and
   keep Dependabot alerts active.
+
+## Later verification
+
+The target Windows/GPU configuration subsequently passed the end-to-end gate.
+Its sanitized result is recorded in
+[WINDOWS_GPU_ACCEPTANCE_RESULT.md](../WINDOWS_GPU_ACCEPTANCE_RESULT.md). This
+updates the compatibility status without changing the decision to keep source
+publication, runtime packaging, network exposure and production readiness as
+separate claims.

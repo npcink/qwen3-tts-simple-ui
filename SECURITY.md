@@ -14,6 +14,6 @@ This application can synthesize speech and clone an authorized voice. A local de
 
 The health endpoint intentionally omits backend addresses. Logs and audit records must not contain source audio or transcription text. The audit log stores timestamps, cryptographic digests and file suffixes; short text digests can still be sensitive and require restricted access.
 
-Before changing source visibility, scan every reachable Git ref for secrets, review upload validation against real file formats, and complete a threat review for the intended network boundary. This source-publication review has passed; evidence is tracked in [docs/PUBLIC_RELEASE_REVIEW.md](docs/PUBLIC_RELEASE_REVIEW.md). Target Windows/GPU acceptance is still required before claiming runtime compatibility or production readiness, but it does not block publication of the Alpha source.
+Before changing source visibility, scan every reachable Git ref for secrets, review upload validation against real file formats, and complete a threat review for the intended network boundary. This source-publication review has passed; evidence is tracked in [docs/PUBLIC_RELEASE_REVIEW.md](docs/PUBLIC_RELEASE_REVIEW.md). One Windows/GPU configuration has also passed the [sanitized runtime acceptance](docs/WINDOWS_GPU_ACCEPTANCE_RESULT.md). Neither result makes direct public-network deployment or production use supported.
 
 Report vulnerabilities privately to the repository owner. Do not attach real voice samples or generated impersonation content.
