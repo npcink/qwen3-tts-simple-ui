@@ -56,3 +56,6 @@ Overall: PASS | FAIL
 Any failure keeps that Windows/GPU combination unverified until it is fixed and
 the whole checklist is rerun. It does not require making the Alpha source
 private again.
+
+The first completed, sanitized record is available in
+[WINDOWS_GPU_ACCEPTANCE_RESULT.md](WINDOWS_GPU_ACCEPTANCE_RESULT.md).

@@ -12,7 +12,7 @@ Current status:
 | Surface | Status |
 | --- | --- |
 | Source repository visibility | GO — public Alpha |
-| Target Windows/GPU compatibility | PENDING — no claim yet |
+| Target Windows/GPU compatibility | VERIFIED — one Windows 11 / RTX 4090 configuration |
 | Direct public-network deployment | UNSUPPORTED |
 | Production readiness | NOT CLAIMED |
 
@@ -81,11 +81,27 @@ ASR services. Runtime files cross a third boundary onto local storage.
 The fixtures are public upstream compatibility evidence and are not committed
 to this repository.
 
+## Runtime verification — 2026-07-21
+
+- Candidate commit `cfae08cb18cdfb7d7804a900d1e1acbf72ed5371`
+  passed the complete target-host checklist.
+- CustomVoice, Base clone and Japanese ASR paths produced usable audio on the
+  verified Windows 11 / NVIDIA GeForce RTX 4090 configuration.
+- Loopback binding, request-boundary rejection, temporary-upload cleanup,
+  output retention and shared GPU-lock recovery passed.
+- The authorized reference sample and generated acceptance outputs were
+  removed from the Windows host after the listening check.
+- Only the sanitized result is public; no host identifier, account, path,
+  transcript, sample, generated audio or raw log is retained here.
+
+See [the sanitized Windows/GPU acceptance result](WINDOWS_GPU_ACCEPTANCE_RESULT.md)
+for the supported claim's exact scope.
+
 ## Runtime follow-up
 
-- Complete [the target Windows/GPU acceptance](WINDOWS_GPU_ACCEPTANCE.md)
-  before claiming that configuration as supported or publishing a runtime
-  artifact.
+- Repeat [the Windows/GPU acceptance](WINDOWS_GPU_ACCEPTANCE.md) before
+  claiming any additional configuration as supported or publishing a runtime
+  artifact for it.
 - Keep direct public-network deployment unsupported until authentication,
   rate limiting, abuse handling and operational monitoring have their own
   reviewed implementation.
